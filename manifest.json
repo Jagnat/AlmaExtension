@@ -1,0 +1,27 @@
+{
+	"manifest_version": 2,
+
+	"name": "Alma Extension",
+	"description": "",
+	"version": "1.0",
+
+	"background":
+	{
+		"scripts": ["background.js"]
+	},
+
+	"content_scripts":
+	[
+		{
+			"matches": ["*://*.alma.exlibrisgroup.com/*"],
+			"js": ["script.js"]
+		}
+	],
+
+	"permissions":
+	[
+		"tabs",
+		"activeTab",
+		"https://ajax.googleapis.com/"
+	]
+}
