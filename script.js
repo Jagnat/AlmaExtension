@@ -1,20 +1,24 @@
 var secondLoad = false;
 
-var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
-
+// Recursively check and see if loading has finished
 function isLoadingDone()
 {
 	var e = document.getElementById("fulfillmentpatronServicesuser_notes_span")
 	if (e.className.includes("tabSelected"))
 	{
+		// If we are loaded
 		checkUserNotes();
 	}
 	else
 	{
+		// Otherwise, time out again
 		window.setTimeout(isLoadingDone, 50);
 	}
 }
 
+var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
+
+// Programmatically click button, call function to wait for loading
 if (btn)
 {
 	btn.click();
@@ -27,15 +31,18 @@ function checkUserNotes()
 
 	var shouldPopup = true;
 
+	// Iterate through span elements, search for required text
 	for (var i = 0; i < e.length; i++)
 	{
 		var text = e[i].innerHTML.toLowerCase();
 		if (text.includes("equipment checkout"))
 		{
+			// If we found text, we don't need to popup
 			shouldPopup = false;
 		}
 	}
 
+	// If an item has been scanned, we don't need to popup
 	if (document.getElementById("TABLE_DATA_loanList"))
 	{
 		shouldPopup = false
@@ -44,8 +51,11 @@ function checkUserNotes()
 	if (shouldPopup)
 	{
 		console.log("User doesn't have permissions!");
+		// Open confirmation dialog box
 		if (window.confirm("User hasn't signed checkout agreement! Open page?"))
 		{
+			// If "ok" clicked, send a message to the background script
+			// to open up an incognito window
 			chrome.runtime.sendMessage({act: "openPage"}, function(response)
 			{
 				console.log(response.test);
