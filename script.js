@@ -1,4 +1,5 @@
 var secondLoad = false;
+var TIMEOUT_VALUE = 50;
 
 // Recursively check and see if loading has finished
 function isLoadingDone()
@@ -12,7 +13,7 @@ function isLoadingDone()
 	else
 	{
 		// Otherwise, time out again
-		window.setTimeout(isLoadingDone, 50);
+		window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
 	}
 }
 
@@ -22,7 +23,7 @@ var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
 if (btn)
 {
 	btn.click();
-	window.setTimeout(isLoadingDone, 50);
+	window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
 }
 
 function checkUserNotes()
