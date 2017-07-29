@@ -32,22 +32,26 @@ function checkUserNotes()
 
 	var shouldPopup = true;
 
-	// Iterate through span elements, search for required text
-	for (var i = 0; i < e.length; i++)
-	{
-		var text = e[i].innerHTML.toLowerCase();
-		if (text.includes("equipment checkout"))
-		{
-			// If we found text, we don't need to popup
-			shouldPopup = false;
-		}
-	}
-
-	// If an item has been scanned, we don't need to popup
+  
+  // If an item has been scanned, we don't need to popup
 	if (document.getElementById("TABLE_DATA_loanList"))
 	{
 		shouldPopup = false
 	}
+  else
+  {
+    // Iterate through span elements, search for required text
+    for (var i = 0; i < e.length; i++)
+    {
+      var text = e[i].innerHTML.toLowerCase();
+      if (text.includes("equipment checkout"))
+      {
+        // If we found text, we don't need to popup
+        shouldPopup = false;
+        break
+      }
+    }
+  }
 
 	if (shouldPopup)
 	{
