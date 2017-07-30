@@ -1,6 +1,15 @@
 var secondLoad = false;
 var TIMEOUT_VALUE = 50;
 
+var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
+
+// Programmatically click button, call function to wait for loading
+if (btn)
+{
+	btn.click();
+	window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
+}
+
 // Recursively check and see if loading has finished
 function isLoadingDone()
 {
@@ -15,15 +24,6 @@ function isLoadingDone()
 		// Otherwise, time out again
 		window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
 	}
-}
-
-var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
-
-// Programmatically click button, call function to wait for loading
-if (btn)
-{
-	btn.click();
-	window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
 }
 
 function checkUserNotes()
