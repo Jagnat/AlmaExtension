@@ -37,6 +37,8 @@ function checkForCheckouts()
   
   var arrayOfItems = []
   
+  // This while loop appends i (an incrementing variable) to a specific prefix and suffix, finding the element ids of an item's barcode and name.
+  // Everytime that an element (that was not null) is found, i is incremented.
   var i = 0
   while (true)
   {
@@ -48,16 +50,18 @@ function checkForCheckouts()
     var barcode = document.getElementById(barcode_id).value
     var item_name = document.getElementById(item_name_id).value
     
+    // If barcode equals null, this means that there is no more items that are on the 'list'
     if (barcode == null)
     {
       break
     }
     
-    arrayOfItems.push([barcode, barcode_id])
-    
+    // Adds the array of barcode | item name to the array of items
+    arrayOfItems.push([barcode, item_name])
     i++
   }
   
+  // If i equals 0, this essentially means that arrayOfItems is empty
   if (i == 0)
   {
     return
@@ -85,6 +89,7 @@ function checkForCheckins()
   var BARCODE_PREFIX = "SPAN_SELENIUM_ID_returnList_ROW_"
   var BARCODE_SUFFIX = "_COL_itemLoanbarcode"
   
+  // Similar to checkForCheckouts, this increments i to find element IDs.
   var i = 0
   while (true)
   {
@@ -98,9 +103,8 @@ function checkForCheckins()
       break
     }
     
-    # TODO: Check database to remove barcode if it exists. Barcode is our key
+    // TODO: Check database to remove barcode if it exists. Barcode is our key
     // mysqlHandler(?).remove(barcode)
-    
     i++
   }
 }
