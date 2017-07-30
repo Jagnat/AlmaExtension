@@ -1,6 +1,4 @@
-var secondLoad = false;
 var TIMEOUT_VALUE = 50;
-
 var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
 
 // Programmatically click button, call function to wait for loading
