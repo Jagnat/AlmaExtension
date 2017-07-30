@@ -75,13 +75,28 @@ function checkForCheckouts()
     
     // TODO: Check database to see if  items is in database table yet, if not, add it in the format of...
   // itemBarcode | itemName | patronWNumber | patronFirstName
-    // mysqlHanlder(?).add(item[0], item[1], patronWNumber, patronFirstName)
+    // mysqlHandler(?).add(item[0], item[1], patronWNumber, patronFirstName)
   }
 }
 
 function checkForCheckins()
 {
+  var BARCODE_PREFIX = "SPAN_SELENIUM_ID_returnList_ROW_"
+  var BARCODE_SUFFIX = "_COL_itemLoanbarcode"
   
+  arrayOfBarcodes = []
+  
+  var i = 0
+  while (true)
+  {
+    var id = '' + i
+    var barcode_id = BARCODE_PREFIX + id + BARCODE_SUFFIX
+    
+    var barcode = document.getElementsById(barcode_id).value
+    
+    # TODO: Check database to remove barcode if it exists. Barcode is our key
+    // mysqlHandler(?).remove(barcode)
+  }
 }
 
 // Recursively check and see if loading has finished
