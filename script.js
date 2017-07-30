@@ -84,8 +84,6 @@ function checkForCheckins()
   var BARCODE_PREFIX = "SPAN_SELENIUM_ID_returnList_ROW_"
   var BARCODE_SUFFIX = "_COL_itemLoanbarcode"
   
-  arrayOfBarcodes = []
-  
   var i = 0
   while (true)
   {
@@ -94,8 +92,15 @@ function checkForCheckins()
     
     var barcode = document.getElementsById(barcode_id).value
     
+    if (barcode == null)
+    {
+      break
+    }
+    
     # TODO: Check database to remove barcode if it exists. Barcode is our key
     // mysqlHandler(?).remove(barcode)
+    
+    i++
   }
 }
 
