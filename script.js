@@ -1,11 +1,87 @@
 var TIMEOUT_VALUE = 50;
-var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
+var TIMEOUT_ATTEMPTS_LIMIT = 10;
+var PATRON_SERVICES_TITLE = "Patron Services"
+var MANAGE_ITEM_RETURNS_TITLE = "Manage Item Returns"
 
-// Programmatically click button, call function to wait for loading
-if (btn)
+var attempt = 1;
+
+
+var websiteTitle = document.title
+
+if (websiteTitle == PATRON_SERVICES_TITLE)
 {
-	btn.click();
-	window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
+  
+  
+  // Programmatically click button, call function to wait for loading
+  var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
+  if (btn)
+  {
+    btn.click();
+    window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
+  }
+}
+else if (websiteTitle == MANAGE_ITEM_RETURNS_TITLE)
+{
+  
+}
+
+function checkForCheckouts()
+{
+  var BARCODE_PREFIX = "HREF_INPUT_SELENIUM_ID_loanList_ROW_"
+  var BARCODE_SUFFIX = "_COL_itemLoanbarcode"
+  var ITEM_NAME_PREFIX = "SPAN_SELENIUM_ID_returnList_ROW_"
+  var ITEM_NAME_SUFFIX = "_COL_itemLoanbarcode"
+  var PATRON_DETAILS_ID = "EXLPatronDetailsRow"
+  
+  
+  var arrayOfItems = []
+  
+  var i = 0
+  while (true)
+  {
+    var id = '' + i
+    
+    var barcode_id = BARCODE_PREFIX + id + BARCODE_SUFFIX 
+    var item_name_id = ITEM_NAME_PREFIX + id + ITEM_NAME_SUFFIX
+    
+    var barcode = document.getElementById(barcode_id).value
+    var item_name = document.getElementById(item_name_id).value
+    
+    if (barcode == null)
+    {
+      break
+    }
+    
+    arrayOfItems.push([barcode, barcode_id])
+    
+    i++
+  }
+  
+  if (i == 0)
+  {
+    return
+  }
+  
+  var patronDetails = document.getElementsById(PATRON_DETAILS_ID)
+  // The first element contains the patron's name in a 'lastName, firstName' format
+  // We grab the first element, split it on the ', ' and grab the second element for the first name
+  var patronFirstName = patronDetails[0].value.split(", ")[1]
+  // The second element is simply the w number
+  var patronWNumber = patronDetails[1].value
+  
+  for (var i = 0; i < arrayOfItems.length; i++)
+  {
+    item = arrayOfItems[i]
+    
+    // TODO: Check database to see if  items is in database table yet, if not, add it in the format of...
+  // itemBarcode | itemName | patronWNumber | patronFirstName
+    // mysqlHanlder(?).add(item[0], item[1], patronWNumber, patronFirstName)
+  }
+}
+
+function checkForCheckins()
+{
+  
 }
 
 // Recursively check and see if loading has finished
@@ -16,12 +92,18 @@ function isLoadingDone()
 	{
 		// If we are loaded
 		checkUserNotes();
+    return
 	}
-	else
-	{
-		// Otherwise, time out again
-		window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
-	}
+  
+  // Otherwise, time out again
+  attempt++
+  
+  if (attempt > TIMEOUT_ATTEMPTS_LIMIT) {
+    console.log("Timeout on loading user notes tab")
+    return
+  }
+  
+  window.setTimeout(isLoadingDone, TIMEOUT_VALUE);
 }
 
 function checkUserNotes()
