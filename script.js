@@ -1,4 +1,5 @@
 var TIMEOUT_VALUE = 50;
+var LOAD_DELAY = 100;
 var TIMEOUT_ATTEMPTS_LIMIT = 10;
 var PATRON_SERVICES_TITLE = "Patron Services"
 var MANAGE_ITEM_RETURNS_TITLE = "Manage Item Returns"
@@ -10,7 +11,7 @@ var websiteTitle = document.title
 
 if (websiteTitle == PATRON_SERVICES_TITLE)
 {
-  
+  window.setTimeout(checkForCheckouts, LOAD_DELAY)
   
   // Programmatically click button, call function to wait for loading
   var btn = document.getElementById("fulfillmentpatronServicesuser_notes");
@@ -22,7 +23,7 @@ if (websiteTitle == PATRON_SERVICES_TITLE)
 }
 else if (websiteTitle == MANAGE_ITEM_RETURNS_TITLE)
 {
-  
+  window.setTimeout(checkForCheckins, LOAD_DELAY)
 }
 
 function checkForCheckouts()
