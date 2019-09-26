@@ -3,6 +3,12 @@
 var NOTE_CLASS_NAME = "innerContainer";
 var SEARCH_TERM = "equipment checkout";
 var CONFIRM_MSG = "User hasn't signed checkout agreement!\nOpen page?"
+var PATRON_ELEMENT = "pageBeanfullPatronName"
+var SLEEP_TIME = 500
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 // Load listener
@@ -20,34 +26,28 @@ function load_listener(event) {
 }
 
 // Handles checking user info
-function handle_div(event) {
+async function handle_div(event) {
   // Get all tables loaded under this content
   var tables = event.getElementsByTagName("table");
-  var popup = true;
+  var patron_el = document.getElementById(PATRON_ELEMENT);  // for existence check
 
-  // Iterate over each table and see if its inner text has the keyword we want
-  for (var i=0; i < tables.length; i++) {
-    var table_text = tables[i].innerText.toLowerCase();
-
-    // If so, the user is free to checkout and no popup is wanted
-    if (table_text.includes(SEARCH_TERM)) {
-      popup = false;
-      break;
-    }
+  // If there isnt 1 table or we cant find the patron element
+  // we're not on the user page
+  if (tables.length != 1 || patron_el == null) {
+    return;
   }
 
-  // Otherwise we send a message to a background script to make a new incognito window
-  if (popup) {
-    console.log("User doesn't have permissions!");
+  var table_text = tables[0].innerText.toLowerCase();
 
-    // Open confirmation dialog box
+  if (table_text.includes(SEARCH_TERM)) {
+    console.log("User has permissions!");
+  } else {
+    await sleep(SLEEP_TIME);
     if (window.confirm(CONFIRM_MSG)) {
       chrome.runtime.sendMessage({act: "openPage"}, function(response) {
         console.log(response.result);
       });
     }
-  } else {
-    console.log("User has permissions!");
   }
 }
 
